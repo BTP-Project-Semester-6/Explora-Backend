@@ -21,7 +21,8 @@ const userSchema = mongoose.Schema({
     type: String,
   },
   guideId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Guide",
     default: null,
   },
   posts: [

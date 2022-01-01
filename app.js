@@ -31,4 +31,4 @@ app.listen(process.env.PORT || 3001, () => {
   console.log(`Server Running at http://${hostname}:${port}/`);
 });
 
-app.use("/api", require("./routes/challenge"));
+app.use("/api/challenge", require("./routes/challenge"));

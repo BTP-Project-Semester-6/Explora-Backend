@@ -11,9 +11,9 @@ exports.newChallenge = (req, res) => {
     locations,
   });
 
-  _challenge.save((e, d) => {
-    if (e) {
-      console.log(e);
+  _challenge.save((error, data) => {
+    if (error) {
+      console.log(error);
       return res.status(400).json({ error: "Adding Challenge Failed" });
     }
 

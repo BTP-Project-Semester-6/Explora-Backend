@@ -8,8 +8,8 @@ const challengeSchema = mongoose.Schema({
   locations: [
     {
       name: { type: String, trim: true },
-      latitude: { type: String, trim: true },
-      longitude: { type: String, trim: true },
+      lat: { type: String, trim: true },
+      lng: { type: String, trim: true },
     },
   ],
 });

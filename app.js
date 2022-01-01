@@ -28,5 +28,12 @@ connection.once("open", () => {
 
 //STARTING APP
 app.listen(process.env.PORT || 3001, () => {
-    console.log(`Server Running at http://${hostname}:${port}/`);
-  });
+  console.log(`Server Running at http://${hostname}:${port}/`);
+});
+
+app.use("/api/challenge", require("./routes/challenge"));
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(422).send({ success: false, error: err.message });
+});

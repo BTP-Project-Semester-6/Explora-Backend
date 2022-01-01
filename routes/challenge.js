@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.post(
   "/newChallenge",
-  isChallengeValidated,
   ChallengeValidate,
+  isChallengeValidated,
   newChallenge
 );
 

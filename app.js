@@ -32,3 +32,8 @@ app.listen(process.env.PORT || 3001, () => {
 });
 
 app.use("/api/challenge", require("./routes/challenge"));
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(422).send({ success: false, error: err.message });
+});

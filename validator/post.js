@@ -5,10 +5,10 @@ exports.PostValidate = [
   check("author").notEmpty().withMessage("Please enter author"),
   check("photoUrl").notEmpty().withMessage("Please enter photoUrl"),
   check("description").notEmpty().withMessage("Please enter description"),
-  check("likes").isArray().withMessage("Please enter likes array"),
-  check("comment")
-  .isArray()
-    .withMessage("Please enter comment array"),
+  // check("likes").isArray().withMessage("Please enter likes array"),
+  // check("comment")
+  // .isArray()
+  //   .withMessage("Please enter comment array"),
   
 ];
 

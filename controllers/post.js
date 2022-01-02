@@ -32,3 +32,15 @@ exports.newPost = (req, res) =>{
         }
     });
 };
+
+exports.getPostbyID = (req,res) => {
+    const userId = req.body.id;
+    Post.find({ author: userId })
+    .then((posts) => {
+      return res.status(200).json(posts);
+    })
+    .catch((err) => {
+      return res.status(400).json({ error: "Somthing went wrong" });
+    });
+
+}

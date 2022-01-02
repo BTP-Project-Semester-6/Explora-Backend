@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const challengeSchema = mongoose.Schema({
-  city: { type: String, unique: 1, trin: true },
+  city: { type: String, unique: 1, trim: true },
   badge: { type: String, trim: true },
   name: { type: String, trim: true },
   description: { type: String, trim: true },

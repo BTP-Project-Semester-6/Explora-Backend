@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 
 const postSchema = mongoose.Schema({
     location: {type: String, trim: true},
-    Author: {type:  mongoose.Schema.Types.ObjectId, ref: "User" },
-    PhotoUrl:{type: String, trim: true},
-    Description:{type: String, trim: true},
-    Likes:[
+    author: {type:  mongoose.Schema.Types.ObjectId, ref: "User" },
+    photoUrl:{type: String, trim: true},
+    description:{type: String, trim: true},
+    likes:[
         {
             type:  mongoose.Schema.Types.ObjectId, ref: "User"
         }
     ],
-    Comments: [
-        {userId:{type:  mongoose.Schema.Types.ObjectId, ref: "User"},
-        commentString:{type: String, trim: true}}
+    comments: [
+        {
+            userId:{type:  mongoose.Schema.Types.ObjectId, ref: "User"},
+            commentString:{type: String, trim: true}
+        }
     ]
 });
 

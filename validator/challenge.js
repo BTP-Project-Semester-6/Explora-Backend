@@ -19,6 +19,10 @@ exports.ChallengeValidate = [
     .withMessage("Please enter location longitude"),
 ];
 
+exports.CityValidate =[
+  check("city").notEmpty().withMessage("Please enter city"),
+];
+
 exports.isChallengeValidated = (req, res, next) => {
   const errors = validationResult(req);
   //   console.log(req.body);

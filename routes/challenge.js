@@ -1,6 +1,9 @@
 const express = require("express");
 const { model } = require("mongoose");
-const { newChallenge } = require("../controllers/challenge");
+const {
+  newChallenge,
+  getChallengeByCity,
+} = require("../controllers/challenge");
 const {
   isChallengeValidated,
   ChallengeValidate,
@@ -13,5 +16,7 @@ router.post(
   isChallengeValidated,
   newChallenge
 );
+
+router.get("/getChallengeByCity", getChallengeByCity);
 
 module.exports = router;

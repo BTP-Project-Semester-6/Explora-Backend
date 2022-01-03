@@ -43,4 +43,4 @@ const guideSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.Schema("Guide", guideSchema);
+module.exports = mongoose.model("Guide", guideSchema);

@@ -32,3 +32,15 @@ exports.addUser = (req, res) => {
     });
   });
 };
+
+exports.getUserById = (req, res) => {
+  User.findById(req.body.userId).then((err, data) => {
+    if (errr) {
+      return res.status(400).send({ error: err });
+    }
+    const { passoword, ...responseData } = data;
+    return res.status(200).send({
+      responseData,
+    });
+  });
+};

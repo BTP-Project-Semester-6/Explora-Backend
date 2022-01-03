@@ -32,6 +32,6 @@ exports.getChallengeByCity = (req, res) => {
       return res.status(200).json(_challenge);
     })
     .catch((err) => {
-      return res.status(400).json({ error: "No city found" });
+      return res.status(400).json({ error: "Something went wrong" });
     });
 };

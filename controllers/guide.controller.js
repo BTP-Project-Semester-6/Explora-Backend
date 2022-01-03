@@ -33,3 +33,37 @@ exports.addGuide = (req, res) => {
     );
   });
 };
+
+exports.getGuideById = (req, res) => {
+  Guide.findById(req.params.id)
+    .populate("userId", "-password")
+    .then((data, err) => {
+      if (err) {
+        return res
+          .status(400)
+          .send({ error: "Could not find the given guide" });
+      }
+      return res.status(200).send({ data: data });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).send({ error: "Could not find the given guide" });
+    });
+};
+
+exports.getGuideByLocation = (req, res) => {
+  Guide.find({ location: req.params.location })
+    .populate("userId", "-password")
+    .then((data, err) => {
+      if (err) {
+        return res
+          .status(400)
+          .send({ error: "Could not find the given guide" });
+      }
+      return res.status(200).send({ data: data });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).send({ error: "Could not find the given guide" });
+    });
+};

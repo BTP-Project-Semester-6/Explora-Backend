@@ -7,6 +7,7 @@ const {
 const {
   isChallengeValidated,
   ChallengeValidate,
+  CityValidate,
 } = require("../validator/challenge");
 const router = express.Router();
 
@@ -17,6 +18,6 @@ router.post(
   newChallenge
 );
 
-router.get("/getChallengeByCity", getChallengeByCity);
+router.get("/getChallengeByCity",CityValidate,isChallengeValidated,getChallengeByCity);
 
 module.exports = router;

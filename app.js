@@ -33,6 +33,8 @@ app.listen(process.env.PORT || 3001, () => {
 app.use("/api/challenge", require("./routes/challenge"));
 app.use("/api/user", require("./routes/user"));
 app.use("/api/guide", require("./routes/guide"));
+app.use("/api/posts", require("./routes/post"));
+app.use("/api/buddy", require("./routes/buddy"));
 
 app.use((err, req, res, next) => {
   console.error(err);

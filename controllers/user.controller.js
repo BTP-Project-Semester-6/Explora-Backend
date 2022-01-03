@@ -34,13 +34,59 @@ exports.addUser = (req, res) => {
 };
 
 exports.getUserById = (req, res) => {
-  User.findById(req.body.userId).then((err, data) => {
-    if (errr) {
-      return res.status(400).send({ error: err });
-    }
-    const { passoword, ...responseData } = data;
-    return res.status(200).send({
-      responseData,
+  User.findById(req.params.id)
+    .then((data, err) => {
+      if (err) {
+        return res.status(400).send({ error: "Could not find the given user" });
+      }
+      return res.status(200).send({
+        user: {
+          _id: data._id,
+          name: data.name,
+          username: data.username,
+          guideId: data.guideId,
+          picUrl: data.picUrl,
+          age: data.age,
+          email: data.email,
+          gender: data.gender,
+          posts: data.posts,
+          travelHistory: data.travelHistory,
+          badges: data.badges,
+          friends: data.friends,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).send({ error: "Could not find the given user" });
     });
-  });
+};
+
+exports.getUserByUsername = (req, res) => {
+  User.findOne({ username: req.params.username })
+    .then((data, err) => {
+      if (err) {
+        return res.status(400).send({ error: "Could not find the given user" });
+      }
+      return res.status(200).send({
+        user: {
+          _id: data._id,
+          name: data.name,
+          username: data.username,
+          guideId: data.guideId,
+          picUrl: data.picUrl,
+          age: data.age,
+          email: data.email,
+          gender: data.gender,
+          posts: data.posts,
+          travelHistory: data.travelHistory,
+          badges: data.badges,
+          friends: data.friends,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).send({ error: "Could not find the given user" });
+    });
 };

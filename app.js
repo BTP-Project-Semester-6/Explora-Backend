@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const env = require("dotenv");
-const http = require("http");
 const bodyParser = require("body-parser");
 
 //DEFINING MODULES
@@ -32,6 +31,8 @@ app.listen(process.env.PORT || 3001, () => {
 });
 
 app.use("/api/challenge", require("./routes/challenge"));
+app.use("/api/user", require("./routes/user"));
+app.use("/api/guide", require("./routes/guide"));
 app.use("/api/posts", require("./routes/post"));
 app.use("/api/buddy", require("./routes/buddy"));
 

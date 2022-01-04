@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 exports.addUser = (req, res) => {
   const newUser = new User({
@@ -23,12 +24,19 @@ exports.addUser = (req, res) => {
       console.log(err);
       return res.status(400).json({ error: "Adding User Failed" });
     }
-    return res.status(200).json({
-      user: {
+    const token = jwt.sign(
+      {
         _id: data._id,
         name: data.name,
         username: data.username,
       },
+      process.env.JWT_secret_token,
+      {
+        expiresIn: "500h",
+      }
+    );
+    return res.status(200).json({
+      token,
     });
   });
 };

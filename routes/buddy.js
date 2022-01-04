@@ -16,10 +16,13 @@ const {
   isBuddyValidated,
 } = require("../validator/buddy");
 
+const { isAuthenticated } = require("../middleware/auth");
+
 router.post(
   "/createGroup",
   buddyCreateGroupValidate,
   isBuddyValidated,
+  isAuthenticated,
   createGroup
 );
 router.post(

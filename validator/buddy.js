@@ -2,6 +2,7 @@ const { check, validationResult } = require("express-validator");
 
 exports.buddyCreateGroupValidate = [
   check("groupMaxSize").notEmpty().withMessage("Error: Group Max Size"),
+  check("description").notEmpty().withMessage("Error: Description"),
   check("city").notEmpty().withMessage("Error: City"),
   check("dateOfArrival").notEmpty().withMessage("Error: dateOfArrival"),
   check("dateOfDeparture").notEmpty().withMessage("Error: dateOfDeparture"),

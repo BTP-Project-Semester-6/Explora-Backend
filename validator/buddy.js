@@ -16,13 +16,13 @@ exports.buddyDeleteGroupValidate = [
 exports.buddyAddValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
   check("id").notEmpty().withMessage("Error: Personal Id"),
-  check("name").notEmpty().withMessage("Error: Personal Name"),
+  check("username").notEmpty().withMessage("Error: Username"),
 ];
 
 exports.buddyRemoveValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
   check("id").notEmpty().withMessage("Error: Personal Id"),
-  check("name").notEmpty().withMessage("Error: Personal Name"),
+  check("username").notEmpty().withMessage("Error: Username"),
 ];
 
 exports.isBuddyValidated = (req, res, next) => {

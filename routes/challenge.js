@@ -18,6 +18,11 @@ router.post(
   newChallenge
 );
 
-router.get("/getChallengeByCity",CityValidate,isChallengeValidated,getChallengeByCity);
+router.post(
+  "/getChallengeByCity",
+  CityValidate,
+  isChallengeValidated,
+  getChallengeByCity
+);
 
 module.exports = router;

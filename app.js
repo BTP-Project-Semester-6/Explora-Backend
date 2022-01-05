@@ -11,7 +11,8 @@ const port = 3001 || process.env.PORT;
 const hostname = "localhost";
 
 //VALIDATING MODULES POLICY
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 env.config();

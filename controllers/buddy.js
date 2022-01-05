@@ -6,18 +6,20 @@ exports.createGroup = (req, res) => {
     city,
     dateOfArrival,
     dateOfDeparture,
+    description,
     HostName,
     HostId,
   } = req.body;
   const _createGroup = new Buddy({
     groupMaxSize: groupMaxSize,
     city: city,
+    description: description,
     dateOfArrival: dateOfArrival,
     dateOfDeparture: dateOfDeparture,
     Host: HostId,
     inGroup: [
       {
-        name: HostName,
+        username: HostName,
         id: HostId,
       },
     ],
@@ -64,7 +66,7 @@ exports.addBuddy = (req, res) => {
     {
       $addToSet: {
         inGroup: {
-          name: name,
+          username: name,
           id: id,
         },
       },
@@ -87,7 +89,7 @@ exports.removeBuddy = (req, res) => {
     {
       $pull: {
         inGroup: {
-          name: name,
+          username: name,
           id: id,
         },
       },

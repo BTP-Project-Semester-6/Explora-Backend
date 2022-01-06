@@ -35,6 +35,18 @@ exports.createGroup = (req, res) => {
   });
 };
 
+exports.getBuddyByCity = (req, res) => {
+  console.log(req.body);
+  const city = req.body.city;
+  Buddy.find({ city: city })
+    .then((_buddy) => {
+      return res.status(200).json(_buddy);
+    })
+    .catch((err) => {
+      return res.status(440).json({ error: "Something went wrong" });
+    });
+};
+
 exports.deleteGroup = (req, res) => {
   const { groupId, myId } = req.body;
   Buddy.findOne({ _id: groupId })

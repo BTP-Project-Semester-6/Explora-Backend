@@ -31,6 +31,13 @@ exports.userValidate = [
   }),
 ];
 
+exports.loginValidate = [
+  check("username").notEmpty().withMessage("Please enter username"),
+  check("password")
+    .isLength({ min: 8 })
+    .withMessage("Please enter password with length > 8"),
+];
+
 exports.isUserValidated = (req, res, next) => {
   const errors = validationResult(req);
 

@@ -52,6 +52,7 @@ exports.getGuideById = (req, res) => {
 };
 
 exports.getGuideByLocation = (req, res) => {
+  console.log(req.params.location);
   Guide.find({ location: req.params.location })
     .populate("userId", "-password")
     .then((data, err) => {
@@ -60,6 +61,7 @@ exports.getGuideByLocation = (req, res) => {
           .status(400)
           .send({ error: "Could not find the given guide" });
       }
+      console.log(data);
       return res.status(200).send({ data: data });
     })
     .catch((err) => {

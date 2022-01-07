@@ -26,6 +26,10 @@ exports.buddyRemoveValidate = [
   check("username").notEmpty().withMessage("Error: Username"),
 ];
 
+exports.getBuddyByCityValidate = [
+  check("city").notEmpty().withMessage("Error: City"),
+];
+
 exports.isBuddyValidated = (req, res, next) => {
   const errors = validationResult(req);
   //   console.log(req.body);

@@ -39,6 +39,7 @@ exports.getBuddyByCity = (req, res) => {
   console.log(req.body);
   const city = req.body.city.toLowerCase();
   Buddy.find({ city: city })
+    .populate("Host", "-password")
     .then((_buddy) => {
       return res.status(200).json(_buddy);
     })

@@ -12,7 +12,7 @@ exports.createGroup = (req, res) => {
   } = req.body;
   const _createGroup = new Buddy({
     groupMaxSize: groupMaxSize,
-    city: city,
+    city: city.toLowerCase(),
     description: description,
     dateOfArrival: dateOfArrival,
     dateOfDeparture: dateOfDeparture,
@@ -37,8 +37,9 @@ exports.createGroup = (req, res) => {
 
 exports.getBuddyByCity = (req, res) => {
   console.log(req.body);
-  const city = req.body.city;
+  const city = req.body.city.toLowerCase();
   Buddy.find({ city: city })
+    .populate("Host", "-password")
     .then((_buddy) => {
       return res.status(200).json(_buddy);
     })

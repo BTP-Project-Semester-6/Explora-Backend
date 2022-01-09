@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 exports.addGuide = (req, res) => {
   const newGuide = new Guide({
     userId: req.body.user_id,
-    location: req.body.location,
+    location: req.body.location.toLowerCase(),
     sublocation: req.body.sublocation,
     pastGuideExperiences: [],
     rate: req.body.rate,
@@ -53,7 +53,7 @@ exports.getGuideById = (req, res) => {
 
 exports.getGuideByLocation = (req, res) => {
   console.log(req.params.location);
-  Guide.find({ location: req.params.location })
+  Guide.find({ location: req.params.location.toLowerCase() })
     .populate("userId", "-password")
     .then((data, err) => {
       if (err) {

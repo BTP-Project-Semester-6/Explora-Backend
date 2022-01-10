@@ -3,7 +3,7 @@ const Task = require("../models/Task");
 const User = require("../models/User");
 
 exports.addTaskValidate = [
-  check("userTd").notEmpty().withMessage("Please give user id"),
+  check("userId").notEmpty().withMessage("Please give user id"),
   check("challengeID").notEmpty().withMessage("Please give challenge id"),
 ];
 exports.isTaskValidated = (req, res, next) => {

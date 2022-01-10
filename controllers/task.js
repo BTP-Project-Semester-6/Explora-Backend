@@ -46,3 +46,13 @@ exports.addTask = (req, res) => {
     }
   );
 };
+
+exports.getStatusTask = (req, res) => {
+  Task.find({ userId: req.params.id })
+    .then((taskStatus) => {
+      return res.status(200).json(taskStatus);
+    })
+    .catch((err) => {
+      return res.status(400).json(err);
+    });
+};

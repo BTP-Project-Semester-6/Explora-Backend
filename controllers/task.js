@@ -56,3 +56,26 @@ exports.getStatusTask = (req, res) => {
       return res.status(400).json(err);
     });
 };
+
+exports.completeSubLocationInTask = (req, res) => {
+  // console.log(req.body);
+  Task.findOneAndUpdate(
+    {
+      _id: req.body.taskId,
+      userId: req.body.userId,
+      "locations.name": req.body.subLocation,
+    },
+    {
+      "locations.$.completed": true,
+    },
+    null,
+    (err, data) => {
+      if (!data) {
+        return res
+          .status(400)
+          .send({ message: "Updating sublocation failed..." });
+      }
+      return res.status(200).send({ message: "Success" });
+    }
+  );
+};

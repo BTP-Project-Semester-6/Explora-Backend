@@ -6,7 +6,7 @@ exports.addUser = (req, res) => {
   const newUser = new User({
     name: req.body.name,
     username: req.body.username,
-    picUrl: req.body.picUrl,
+    // picUrl: req.body.picUrl,
     age: req.body.age,
     gender: req.body.gender,
     password: bcrypt.hashSync(req.body.password, 9),

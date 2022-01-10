@@ -57,7 +57,7 @@ exports.getStatusTask = (req, res) => {
     });
 };
 
-exports.completeSubLocationInTask = (req, res) => {
+exports.completeSubLocationInTask = async (req, res) => {
   // console.log(req.body);
   Task.findOneAndUpdate(
     {
@@ -78,4 +78,27 @@ exports.completeSubLocationInTask = (req, res) => {
       return res.status(200).send({ message: "Success" });
     }
   );
+  try {
+    const task = await Task.findOne({
+      _id: req.body.taskId,
+      userId: req.body.userId,
+    });
+    const check = true;
+    task.locations.forEach((subLocation) => {
+      if (subLocation.completed == false) {
+        check = false;
+      }
+    });
+    if (check) {
+      task.completed = true;
+      try {
+        await task.save();
+        return res.status.json({ message: "Success" });
+      } catch (err) {
+        return res.status(400).send(err);
+      }
+    }
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };

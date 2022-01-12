@@ -49,7 +49,7 @@ exports.addTask = (req, res) => {
 };
 
 exports.getStatusTask = (req, res) => {
-  Task.findById(req.params.id)
+  Task.find({ userId: req.params.id })
     .then((taskStatus) => {
       return res.status(200).json(taskStatus);
     })
@@ -59,11 +59,16 @@ exports.getStatusTask = (req, res) => {
 };
 
 exports.getTaskByID = (req, res) => {
-  Task.find({ userId: req.params.id })
+  // console.log(req.params.id);
+  Task.findById(req.params.id)
+    .populate("userId", "-password")
+    .populate("challengeID")
     .then((taskStatus) => {
+      // console.log(taskStatus);
       return res.status(200).json(taskStatus);
     })
     .catch((err) => {
+      console.log(err);
       return res.status(400).json(err);
     });
 };

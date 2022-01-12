@@ -3,6 +3,7 @@ const {
   addTask,
   getStatusTask,
   completeSubLocationInTask,
+  getTaskByID,
 } = require("../controllers/task");
 const {
   addTaskValidate,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.post("/addTask", addTaskValidate, isTaskValidated, addTask);
 router.get("/getStatusTask/:id", getStatusTask);
+router.get("/getTaskByID/:id", getTaskByID);
 router.post(
   "/completeSubLocationInTask",
   completeSubLocationInTaskValidate,

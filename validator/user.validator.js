@@ -8,7 +8,7 @@ exports.userValidate = [
   check("password")
     .isLength({ min: 8 })
     .withMessage("Please enter password with length > 8"),
-  check("picUrl").notEmpty().withMessage("Please enter picture url"),
+  // check("picUrl").notEmpty().withMessage("Please enter picture url"),
   check("gender").notEmpty().withMessage("Please enter gender"),
   check("email").isEmail().withMessage("Please enter valid email"),
   check("username").custom((value) => {
@@ -29,6 +29,13 @@ exports.userValidate = [
       }
     });
   }),
+];
+
+exports.loginValidate = [
+  check("username").notEmpty().withMessage("Please enter username"),
+  check("password")
+    .isLength({ min: 8 })
+    .withMessage("Please enter password with length > 8"),
 ];
 
 exports.isUserValidated = (req, res, next) => {

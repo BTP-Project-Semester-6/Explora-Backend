@@ -6,18 +6,20 @@ exports.createGroup = (req, res) => {
     city,
     dateOfArrival,
     dateOfDeparture,
+    description,
     HostName,
     HostId,
   } = req.body;
   const _createGroup = new Buddy({
     groupMaxSize: groupMaxSize,
-    city: city,
+    city: city.toLowerCase(),
+    description: description,
     dateOfArrival: dateOfArrival,
     dateOfDeparture: dateOfDeparture,
     Host: HostId,
     inGroup: [
       {
-        name: HostName,
+        username: HostName,
         id: HostId,
       },
     ],
@@ -31,6 +33,19 @@ exports.createGroup = (req, res) => {
       message: "Success",
     });
   });
+};
+
+exports.getBuddyByCity = (req, res) => {
+  console.log(req.body);
+  const city = req.body.city.toLowerCase();
+  Buddy.find({ city: city })
+    .populate("Host", "-password")
+    .then((_buddy) => {
+      return res.status(200).json(_buddy);
+    })
+    .catch((err) => {
+      return res.status(440).json({ error: "Something went wrong" });
+    });
 };
 
 exports.deleteGroup = (req, res) => {
@@ -64,7 +79,7 @@ exports.addBuddy = (req, res) => {
     {
       $addToSet: {
         inGroup: {
-          name: name,
+          username: name,
           id: id,
         },
       },
@@ -87,7 +102,7 @@ exports.removeBuddy = (req, res) => {
     {
       $pull: {
         inGroup: {
-          name: name,
+          username: name,
           id: id,
         },
       },

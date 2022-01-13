@@ -2,6 +2,7 @@ const { check, validationResult } = require("express-validator");
 
 exports.buddyCreateGroupValidate = [
   check("groupMaxSize").notEmpty().withMessage("Error: Group Max Size"),
+  check("description").notEmpty().withMessage("Error: Description"),
   check("city").notEmpty().withMessage("Error: City"),
   check("dateOfArrival").notEmpty().withMessage("Error: dateOfArrival"),
   check("dateOfDeparture").notEmpty().withMessage("Error: dateOfDeparture"),
@@ -16,13 +17,17 @@ exports.buddyDeleteGroupValidate = [
 exports.buddyAddValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
   check("id").notEmpty().withMessage("Error: Personal Id"),
-  check("name").notEmpty().withMessage("Error: Personal Name"),
+  check("username").notEmpty().withMessage("Error: Username"),
 ];
 
 exports.buddyRemoveValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
   check("id").notEmpty().withMessage("Error: Personal Id"),
-  check("name").notEmpty().withMessage("Error: Personal Name"),
+  check("username").notEmpty().withMessage("Error: Username"),
+];
+
+exports.getBuddyByCityValidate = [
+  check("city").notEmpty().withMessage("Error: City"),
 ];
 
 exports.isBuddyValidated = (req, res, next) => {

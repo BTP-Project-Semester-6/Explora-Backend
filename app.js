@@ -11,7 +11,8 @@ const port = 3001 || process.env.PORT;
 const hostname = "localhost";
 
 //VALIDATING MODULES POLICY
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 env.config();
@@ -35,6 +36,7 @@ app.use("/api/user", require("./routes/user"));
 app.use("/api/guide", require("./routes/guide"));
 app.use("/api/posts", require("./routes/post"));
 app.use("/api/buddy", require("./routes/buddy"));
+app.use("/api/task", require("./routes/task"));
 
 app.use((err, req, res, next) => {
   console.error(err);

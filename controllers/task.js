@@ -1,5 +1,6 @@
 const challenge = require("../models/challenge");
 const Task = require("../models/Task");
+const User = require("../models/User");
 
 exports.addTask = (req, res) => {
   Task.findOne(
@@ -57,6 +58,21 @@ exports.getStatusTask = (req, res) => {
     });
 };
 
+exports.getTaskByID = (req, res) => {
+  // console.log(req.params.id);
+  Task.findById(req.params.id)
+    .populate("userId", "-password")
+    .populate("challengeID")
+    .then((taskStatus) => {
+      // console.log(taskStatus);
+      return res.status(200).json(taskStatus);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json(err);
+    });
+};
+
 exports.completeSubLocationInTask = async (req, res) => {
   // console.log(req.body);
   Task.findOneAndUpdate(
@@ -68,15 +84,15 @@ exports.completeSubLocationInTask = async (req, res) => {
     {
       "locations.$.completed": true,
     },
-    null,
-    (err, data) => {
-      if (!data) {
-        return res
-          .status(400)
-          .send({ message: "Updating sublocation failed..." });
-      }
-      return res.status(200).send({ message: "Success" });
-    }
+    null
+    // (err, data) => {
+    // if (!data) {
+    //   return res
+    //     .status(400)
+    //     .send({ message: "Updating sublocation failed..." });
+    // }
+    // return res.status(200).send({ message: "Success" });
+    // }
   );
   try {
     const task = await Task.findOne({
@@ -93,7 +109,29 @@ exports.completeSubLocationInTask = async (req, res) => {
       task.completed = true;
       try {
         await task.save();
-        return res.status.json({ message: "Success" });
+        challenge.findById(task.challengeID).then((data) => {
+          console.log(data);
+          User.findByIdAndUpdate(
+            task.userId,
+            {
+              $push: { badges: data.badge },
+            },
+            null,
+            (err, data1) => {
+              console.log(err);
+              console.log(data1);
+              if (!data1) {
+                return res
+                  .status(400)
+                  .send({ message: "Updating sublocation failed..." });
+              }
+              return res
+                .status(200)
+                .send({ message: "Successlly added badge" });
+            }
+          );
+          // return res.status(200).send({ message: "Success" });
+        });
       } catch (err) {
         return res.status(400).send(err);
       }

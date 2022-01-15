@@ -8,10 +8,10 @@ const taskSchema = mongoose.Schema({
       name: { type: String, trim: true },
       lat: { type: String, trim: true },
       lng: { type: String, trim: true },
-      competed: { type: Boolean, default: false },
+      completed: { type: Boolean, default: false },
     },
   ],
-  competed: { type: Boolean, default: false },
+  completed: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Task", taskSchema);

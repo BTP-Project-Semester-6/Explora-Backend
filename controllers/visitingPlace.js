@@ -1,8 +1,9 @@
 const axios = require("axios");
+const env = require("dotenv");
 exports.visitingPlace = async (req, res) => {
   axios({
     method: "post",
-    url: "https://atlas.mapmyindia.com/api/security/oauth/token?grant_type=client_credentials&client_id=33OkryzDZsLlNq5F0WTrwxTmlYycG-xFz0swjcDNm49GDJQLInG7AZ4D9Gh3-v70oWTSK_-yMjTp1EGmzreJpA==&client_secret=lrFxI-iSEg-9BfthjlKEWUMmL5TZ-PmB-XYdcyjqRsfUglu33Dpn55C-UMkq1pr7I7IbFlNf7sGGRrJNRZkFfr5EAlW3yXU9",
+    url: process.env.MAP_MY_INDIA,
   })
     .then(function (response1) {
       const token = "bearer " + response1.data.access_token;

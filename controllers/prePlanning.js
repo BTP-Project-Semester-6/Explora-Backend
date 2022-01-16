@@ -27,6 +27,7 @@ exports.newPrePlanning = (req, res) => {
 exports.getPrePlanningBySubLocation = (req, res) => {
   const subLocation = req.params.sublocation;
   PrePlanning.find({ subLocation: subLocation })
+    .populate("author", "-password")
     .then((_subLocation) => {
       return res.status(200).json(_subLocation);
     })

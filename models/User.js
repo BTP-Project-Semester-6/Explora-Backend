@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
   },
   posts: [
     {
-      type: String,
+      postId: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     },
   ],
   travelHistory: [

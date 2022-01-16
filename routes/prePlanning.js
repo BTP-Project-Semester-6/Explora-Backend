@@ -10,4 +10,6 @@ router.get(
   "/getPrePlanningBySubLocation/:sublocation",
   getPrePlanningBySubLocation
 );
-router.post("newPrePlanning", newPrePlanning);
+router.post("/newPrePlanning", newPrePlanning);
+
+module.exports = router;

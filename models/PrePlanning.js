@@ -5,6 +5,7 @@ const prePlanningSchema = mongoose.Schema({
   subLocation: { type: String, trim: true },
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   description: { type: String, trim: true },
+  date: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("PrePlanning", prePlanningSchema);

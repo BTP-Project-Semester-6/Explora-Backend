@@ -3,6 +3,6 @@ const { visitingPlace } = require("../controllers/visitingPlace");
 
 const router = express.Router();
 
-router.get("/places", visitingPlace);
+router.post("/places", visitingPlace);
 
 module.exports = router;

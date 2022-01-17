@@ -36,7 +36,9 @@ app.use("/api/user", require("./routes/user"));
 app.use("/api/guide", require("./routes/guide"));
 app.use("/api/posts", require("./routes/post"));
 app.use("/api/buddy", require("./routes/buddy"));
+app.use("/api/visit", require("./routes/visitingPlace"));
 app.use("/api/task", require("./routes/task"));
+app.use("/api/prePlanning", require("./routes/prePlanning"));
 
 app.use((err, req, res, next) => {
   console.error(err);

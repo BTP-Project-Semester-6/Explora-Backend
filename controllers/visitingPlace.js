@@ -22,14 +22,15 @@ exports.visitingPlace = async (req, res) => {
         },
       })
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
-          res.json(response.data);
+          res.status(200).json(response.data);
         })
         .catch(function (error) {
           console.log(error);
+          res.status(200).json(error);
         });
     })
     .catch(function (error) {
+      console.log(error);
       res.status(400).json(error);
     });
 };

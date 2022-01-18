@@ -133,3 +133,15 @@ exports.loginUserByUsername = (req, res) => {
       return res.status(400).send({ error: "Could not find the given user" });
     });
 };
+
+exports.addPersonalityQuiz = (req, res) => {
+  console.log("asd");
+  User.findByIdAndUpdate(req.body.id, { quizAnswers: req.body.answers }).then(
+    (data, err) => {
+      if (err) {
+        return res.status(500).send({ message: "Some error occured!" });
+      }
+      return res.status(200).send({ message: "Successfully added quiz!" });
+    }
+  );
+};

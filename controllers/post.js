@@ -2,7 +2,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 exports.newPost = (req, res) => {
-  const { location, author, photoUrl, description } = req.body;
+  const { location, author, photoUrl, description, tag } = req.body;
 
   const likes = [],
     comments = [];
@@ -14,6 +14,7 @@ exports.newPost = (req, res) => {
     description,
     likes,
     comments,
+    tag,
   });
 
   post.save((error, data) => {
@@ -52,15 +53,18 @@ exports.getPostbyID = (req, res) => {
     .then(async (data) => {
       const postId = data.posts;
       const posts = [];
+      var ind = 0;
       postId.forEach((element, index) => {
         Post.findOne({ _id: element.postId })
           .then((data) => {
             posts.push(data);
           })
           .then(() => {
-            console.log(index, postId.length);
-            if (index == postId.length - 1) {
+            // console.log(index, postId.length);
+            if (ind == postId.length - 1) {
               return res.status(200).json({ posts: posts });
+            } else {
+              ind++;
             }
           });
       });

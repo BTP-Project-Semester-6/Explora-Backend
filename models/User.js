@@ -64,6 +64,10 @@ const userSchema = mongoose.Schema({
       ref: "User",
     },
   ],
+  quizAnswers: {
+    type: Array,
+    default: undefined,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

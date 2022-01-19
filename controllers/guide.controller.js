@@ -61,7 +61,7 @@ exports.getGuideByLocation = (req, res) => {
           .status(400)
           .send({ error: "Could not find the given guide" });
       }
-      console.log(data);
+      console.log({ guide: data });
       return res.status(200).send({ data: data });
     })
     .catch((err) => {

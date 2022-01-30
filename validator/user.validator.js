@@ -38,6 +38,22 @@ exports.loginValidate = [
     .withMessage("Please enter password with length > 8"),
 ];
 
+exports.quizValidate = [
+  check("id").notEmpty().withMessage("Invalid user!"),
+  check("id").custom((value) => {
+    return User.findById(value)
+      .then((user) => {
+        if (user.quizAnswers !== undefined) {
+          return Promise.reject("User has already given the quiz!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  }),
+];
+
 exports.isUserValidated = (req, res, next) => {
   const errors = validationResult(req);
 

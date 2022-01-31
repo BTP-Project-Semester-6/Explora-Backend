@@ -100,3 +100,25 @@ exports.newComment = (req, res) => {
       return res.status(400).json({ status: "failed" });
     });
 };
+
+exports.likePost = (req, res) => {
+  const postId = req.body.postId;
+  const userId = req.body.userId;
+  Post.updateOne(
+    { _id: postId },
+    {
+      $addToSet: {
+        likes: {
+          userId: userId,
+        },
+      },
+    }
+  )
+    .then(async (data) => {
+      res.status(200).json({ status: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ status: "failed" });
+    });
+};

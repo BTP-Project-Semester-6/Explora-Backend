@@ -121,5 +121,27 @@ exports.removeBuddy = (req, res) => {
 };
 
 exports.addBuddyRequest = (req, res) => {
-  return res.status(200).send({ message: "ok" });
+  const { groupId, id, username } = req.body;
+  Buddy.updateOne(
+    {
+      _id: groupId,
+    },
+    {
+      $addToSet: {
+        requests: {
+          username: username,
+          id: id,
+        },
+      },
+    }
+  )
+    .then((data) => {
+      return res.status(200).json({
+        message: "Success",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ error: "Something went wrong" });
+    });
 };

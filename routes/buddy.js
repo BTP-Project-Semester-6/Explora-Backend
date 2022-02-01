@@ -26,7 +26,7 @@ router.post(
   "/createGroup",
   buddyCreateGroupValidate,
   isBuddyValidated,
-  isAuthenticated,
+  // isAuthenticated,
   createGroup
 );
 router.post(

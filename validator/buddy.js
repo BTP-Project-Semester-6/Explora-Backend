@@ -51,10 +51,26 @@ exports.getBuddyByCityValidate = [
 
 exports.buddyRequestValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
-  check("id").notEmpty().withMessage("Error: Personal Id"),
-  check("username").notEmpty().withMessage("Error: Username"),
-  check("groupId").custom((value) => {
-    Buddy.findById(value)
+  check("id").custom((value, { req }) => {
+    return User.findById(value)
+      .then((user, err) => {
+        console.log(user);
+        console.log(err);
+        if (user == undefined) {
+          return Promise.reject("No user found!");
+        }
+        if (user.username !== req.body.username) {
+          return Promise.reject("Invalid Username for user id!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return Promise.reject(err);
+      });
+  }),
+  check("groupId").custom((value, { req }) => {
+    console.log("asd", req.body);
+    return Buddy.findById(value)
       .then((group) => {
         console.log(group);
         const grpMember = group.inGroup;
@@ -62,18 +78,25 @@ exports.buddyRequestValidate = [
         console.log("###");
         for (const member in grpMember) {
           console.log(grpMember[member]);
-          console.log(req);
+          // console.log(req);
           if (grpMember[member].username === req.body.username)
             return Promise.reject("Given user is already in the buddy group!");
         }
-        console.log(resSet);
+        const requestArr = group.requests;
+        for (const reqElement in requestArr) {
+          if (requestArr[reqElement].username === req.body.username)
+            return Promise.reject(
+              "Given user has already requested to get added in this group!"
+            );
+        }
+        // console.log(resSet);
         // if (user.username !== req.body.username) {
         //   return Promise.reject("Given username doesn't match with original!");
         // }
       })
       .catch((err) => {
         console.log(err);
-        return Promise.reject("Invalid Group!");
+        return Promise.reject(err);
       });
   }),
 ];

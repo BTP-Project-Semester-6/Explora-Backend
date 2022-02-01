@@ -28,7 +28,7 @@ exports.createGroup = (req, res) => {
   _createGroup.save((error, data) => {
     if (error) {
       console.log(error);
-      return res.status(400).json({ error: "Adding Challenge Failed" });
+      return res.status(400).json({ error: "Creating Buddy Failed" });
     }
     return res.status(200).json({
       message: "Success",

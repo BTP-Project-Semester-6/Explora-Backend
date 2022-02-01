@@ -1,14 +1,31 @@
 const { check, validationResult } = require("express-validator");
 const req = require("express/lib/request");
 const Buddy = require("../models/Buddy");
+const User = require("../models/User");
 
 exports.buddyCreateGroupValidate = [
-  check("groupMaxSize").notEmpty().withMessage("Error: Group Max Size"),
-  check("description").notEmpty().withMessage("Error: Description"),
-  check("city").notEmpty().withMessage("Error: City"),
-  check("dateOfArrival").notEmpty().withMessage("Error: dateOfArrival"),
-  check("dateOfDeparture").notEmpty().withMessage("Error: dateOfDeparture"),
-  check("Host").notEmpty().withMessage("Error: Host"),
+  check("groupMaxSize").notEmpty().withMessage("Group Max Size not provided"),
+  check("description").notEmpty().withMessage("Description  not provided"),
+  check("city").notEmpty().withMessage("City not provided"),
+  check("dateOfArrival").notEmpty().withMessage("DateOfArrival not provided"),
+  check("dateOfDeparture")
+    .notEmpty()
+    .withMessage("DateOfDeparture not provided"),
+  check("HostId").custom((value) => {
+    console.log("idval", value);
+    return User.findById(value)
+      .then((user, err) => {
+        console.log(user);
+        console.log("asd", err);
+        if (user.quizAnswers === undefined) {
+          return Promise.reject("User has not given the personality quiz!");
+        }
+      })
+      .catch((err) => {
+        console.log("1", err);
+        return Promise.reject(err);
+      });
+  }),
 ];
 
 exports.buddyDeleteGroupValidate = [
@@ -64,7 +81,8 @@ exports.buddyRequestValidate = [
 exports.isBuddyValidated = (req, res, next) => {
   const errors = validationResult(req);
   //   console.log(req.body);
-  console.log(errors);
+  console.log("#######################");
+  console.log("2", errors);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array()[0].msg });
   }

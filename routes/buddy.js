@@ -7,6 +7,7 @@ const {
   addBuddy,
   removeBuddy,
   getBuddyByCity,
+  addBuddyRequest,
 } = require("../controllers/buddy");
 
 const {
@@ -16,6 +17,7 @@ const {
   buddyRemoveValidate,
   isBuddyValidated,
   getBuddyByCityValidate,
+  buddyRequestValidate,
 } = require("../validator/buddy");
 
 const { isAuthenticated } = require("../middleware/auth");
@@ -40,6 +42,12 @@ router.post(
   getBuddyByCityValidate,
   isBuddyValidated,
   getBuddyByCity
+);
+router.post(
+  "/addbuddyrequest",
+  buddyRequestValidate,
+  isBuddyValidated,
+  addBuddyRequest
 );
 
 module.exports = router;

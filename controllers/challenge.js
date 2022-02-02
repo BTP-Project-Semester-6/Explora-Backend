@@ -9,6 +9,7 @@ exports.newChallenge = (req, res) => {
     name,
     description,
     locations,
+    isvalid: false,
   });
 
   _challenge.save((error, data) => {

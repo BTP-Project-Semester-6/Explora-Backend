@@ -139,7 +139,7 @@ exports.addPersonalityQuiz = (req, res) => {
   User.findByIdAndUpdate(req.body.id, { quizAnswers: req.body.answers }).then(
     (data, err) => {
       if (err) {
-        return res.status(500).send({ message: "Some error occured!" });
+        return res.status(500).send({ errors: "Some error occured!" });
       }
       return res.status(200).send({ message: "Successfully added quiz!" });
     }

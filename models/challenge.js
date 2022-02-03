@@ -12,6 +12,7 @@ const challengeSchema = mongoose.Schema({
       lng: { type: String, trim: true },
     },
   ],
+  isvalid: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("ChallengeSchema", challengeSchema);

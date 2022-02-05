@@ -58,6 +58,7 @@ exports.getPostbyID = (req, res) => {
         Post.findOne({ _id: element.postId })
           .then((data) => {
             posts.push(data);
+            console.log(data);
           })
           .then(() => {
             // console.log(index, postId.length);

@@ -122,3 +122,14 @@ exports.likePost = (req, res) => {
       return res.status(400).json({ status: "failed" });
     });
 };
+exports.getAllPosts = async (req, res) => {
+  try {
+    const allPosts = await Post.find().populate("author", "name picUrl");
+    res.status(200).json({
+      allPosts,
+    });
+  } catch (error) {
+    console.log(err);
+    return res.status(400).json({ status: "failed" });
+  }
+};

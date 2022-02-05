@@ -61,6 +61,8 @@ exports.getUserById = (req, res) => {
           travelHistory: data.travelHistory,
           badges: data.badges,
           friends: data.friends,
+          telegram: data.telegram,
+          instagram: data.instagram,
         },
       });
     })
@@ -90,6 +92,8 @@ exports.getUserByUsername = (req, res) => {
           travelHistory: data.travelHistory,
           badges: data.badges,
           friends: data.friends,
+          telegram: data.telegram,
+          instagram: data.instagram,
         },
       });
     })

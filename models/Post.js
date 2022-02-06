@@ -5,11 +5,10 @@ const postSchema = mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   photoUrl: { type: String, trim: true },
   description: { type: String, trim: true },
-  tag: { type: String, trim: true},
+  tag: { type: String, trim: true },
   likes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
   ],
   comments: [

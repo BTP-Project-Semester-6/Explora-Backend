@@ -58,6 +58,7 @@ exports.getPostbyID = (req, res) => {
         Post.findOne({ _id: element.postId })
           .then((data) => {
             posts.push(data);
+            console.log(data);
           })
           .then(() => {
             // console.log(index, postId.length);
@@ -121,4 +122,15 @@ exports.likePost = (req, res) => {
       console.log(err);
       return res.status(400).json({ status: "failed" });
     });
+};
+exports.getAllPosts = async (req, res) => {
+  try {
+    const allPosts = await Post.find().populate("author", "name picUrl");
+    res.status(200).json({
+      allPosts,
+    });
+  } catch (error) {
+    console.log(err);
+    return res.status(400).json({ status: "failed" });
+  }
 };

@@ -1,4 +1,6 @@
 const Buddy = require("../models/Buddy");
+const User = require("../models/User");
+const fetch = require("node-fetch");
 
 exports.createGroup = (req, res) => {
   const {
@@ -28,7 +30,7 @@ exports.createGroup = (req, res) => {
   _createGroup.save((error, data) => {
     if (error) {
       console.log(error);
-      return res.status(400).json({ error: "Adding Challenge Failed" });
+      return res.status(400).json({ error: "Creating Buddy Failed" });
     }
     return res.status(200).json({
       message: "Success",
@@ -117,5 +119,93 @@ exports.removeBuddy = (req, res) => {
     })
     .catch((err) => {
       return res.status(400).json({ error: "Something went wrong" });
+    });
+};
+
+exports.addBuddyRequest = (req, res) => {
+  const { groupId, id, username } = req.body;
+  Buddy.updateOne(
+    {
+      _id: groupId,
+    },
+    {
+      $addToSet: {
+        requests: {
+          username: username,
+          id: id,
+        },
+      },
+    }
+  )
+    .then((data) => {
+      return res.status(200).json({
+        message: "Success",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ error: "Something went wrong" });
+    });
+};
+
+exports.getBuddySimilarity = async (req, res) => {
+  const groupId = req.params.id;
+  let hostResponse;
+  const requestData = [];
+  const unRanked = [];
+  const dataMap = new Map();
+  const data = await Buddy.findById(groupId).populate("Host", "-password");
+  hostResponse = data.Host.quizAnswers;
+  console.log(data);
+  // const re
+  for (const ind in data.requests) {
+    const reqItem = data.requests[ind];
+    const userDetail = await User.findById(reqItem.id, {
+      password: 0,
+    });
+    console.log(userDetail);
+    if (userDetail.quizAnswers === undefined) {
+      unRanked.push(userDetail);
+    } else {
+      requestData.push({
+        id: userDetail._id,
+        response: userDetail.quizAnswers,
+      });
+      dataMap.set(userDetail.id, userDetail);
+    }
+  }
+
+  console.log(hostResponse);
+  console.log(requestData);
+  fetch("https://explora-ml-backend.herokuapp.com/rank_buddies", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_responses: hostResponse,
+      buddies: requestData,
+    }),
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      console.log(result);
+      const responseData = [];
+      result.rankList.forEach((item) => {
+        responseData.push({
+          userData: dataMap.get(item.id),
+          similarity: item.similarity * 100,
+        });
+      });
+
+      return res.status(200).json({
+        message: "Success",
+        rankedParticipants: responseData,
+        unrankedParticipants: unRanked,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).send({ message: "Internal server error!" });
     });
 };

@@ -5,6 +5,11 @@ const {
   getUserByUsername,
   loginUserByUsername,
   addPersonalityQuiz,
+  allUserExceptHost,
+  getMyFriends,
+  search,
+  friendRequest,
+  AcceptfriendRequest,
 } = require("../controllers/user.controller");
 const {
   userValidate,
@@ -25,5 +30,10 @@ router.post(
   isUserValidated,
   addPersonalityQuiz
 );
+router.post("/allUserExceptHost", allUserExceptHost);
+router.post("/getMyFriends", getMyFriends);
+router.post("/searchFriends", search);
+router.post("/friendRequest", friendRequest);
+router.post("/friendRequestAccept", AcceptfriendRequest);
 
 module.exports = router;

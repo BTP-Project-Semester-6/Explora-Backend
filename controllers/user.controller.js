@@ -145,3 +145,119 @@ exports.addPersonalityQuiz = (req, res) => {
     }
   );
 };
+
+exports.allUserExceptHost = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const users = await User.find({ _id: { $ne: id } });
+    res.status(200).json({
+      users,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: "failed" });
+  }
+};
+
+exports.getMyFriends = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const users = await User.findOne({ _id: id }).populate(
+      "friends.friendId friendRequestSent.friendId friendRequestRecieved.friendId"
+    );
+    res.status(200).json({
+      friends: users.friends,
+      reqSent: users.friendRequestSent,
+      reqRecieved: users.friendRequestRecieved,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: "failed" });
+  }
+};
+
+exports.search = async (req, res) => {
+  try {
+    const Name = req.body.name;
+    let namePattern = new RegExp(Name, "i");
+    User.find({ name: namePattern }).exec((err, data) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      }
+      console.log(data);
+      return res.json({ data });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: "failed" });
+  }
+};
+
+exports.friendRequest = async (req, res) => {
+  try {
+    const fromId = req.body.fromId;
+    const toId = req.body.toId;
+    User.updateOne(
+      { _id: fromId },
+      {
+        $addToSet: {
+          friendRequestSent: {
+            friendId: toId,
+          },
+        },
+      }
+    )
+      .then(async (data) => {
+        User.updateOne(
+          { _id: toId },
+          {
+            $addToSet: {
+              friendRequestRecieved: {
+                friendId: fromId,
+              },
+            },
+          }
+        ).then(async (data) => {
+          res.status(200).json({ status: "success" });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(400).json({ status: "failed" });
+      });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: "failed" });
+  }
+};
+
+exports.AcceptfriendRequest = async (req, res) => {
+  try {
+    const Id1 = req.body.fromId;
+    const Id2 = req.body.toId;
+    await User.updateOne(
+      { _id: Id1 },
+      {
+        $pull: {
+          friendRequestSent: { friendId: Id2 },
+          friendRequestRecieved: { friendId: Id2 },
+        },
+        $addToSet: { friends: { friendId: Id2 } },
+      }
+    );
+    await User.updateOne(
+      { _id: Id2 },
+      {
+        $pull: {
+          friendRequestSent: { friendId: Id1 },
+          friendRequestRecieved: { friendId: Id1 },
+        },
+        $addToSet: { friends: { friendId: Id1 } },
+      }
+    );
+    return res.status(400).json({ status: "success" });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: "failed" });
+  }
+};

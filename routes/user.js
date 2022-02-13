@@ -26,6 +26,6 @@ router.post(
   isUserValidated,
   addPersonalityQuiz
 );
-router.get("/getAllUsers", getAllUsers);
+router.post("/getAllUsers", getAllUsers);
 
 module.exports = router;

@@ -5,12 +5,14 @@ const {
   getUserByUsername,
   loginUserByUsername,
   addPersonalityQuiz,
+  suggestFriends,
 } = require("../controllers/user.controller");
 const {
   userValidate,
   isUserValidated,
   loginValidate,
   quizValidate,
+  suggestFriendValidator,
 } = require("../validator/user.validator");
 
 const router = express.Router();
@@ -24,6 +26,13 @@ router.post(
   quizValidate,
   isUserValidated,
   addPersonalityQuiz
+);
+
+router.post(
+  "/suggestfriends",
+  suggestFriendValidator,
+  isUserValidated,
+  suggestFriends
 );
 
 module.exports = router;

@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const { response } = require("express");
+const fetch = require("node-fetch");
 
 exports.addUser = (req, res) => {
   const newUser = new User({
@@ -144,4 +146,62 @@ exports.addPersonalityQuiz = (req, res) => {
       return res.status(200).send({ message: "Successfully added quiz!" });
     }
   );
+};
+
+exports.suggestFriends = async (req, res) => {
+  const userId = req.body.id;
+  const userData = await User.findById(userId);
+  const quizAnswers = userData.quizAnswers;
+
+  const quizUsers = await User.find({
+    quizAnswers: { $exists: true },
+    _id: { $ne: userData._id },
+  }).select("-password");
+
+  console.log(quizUsers);
+
+  const dataMap = new Map();
+
+  const requestData = quizUsers.map((user) => {
+    dataMap.set(user._id.toString(), user);
+    return {
+      id: user._id.toString(),
+      response: user.quizAnswers,
+    };
+  });
+
+  console.log(requestData);
+
+  console.log(dataMap);
+
+  fetch("https://explora-ml-backend.herokuapp.com/rank_buddies", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_responses: userData.quizAnswers,
+      buddies: requestData,
+    }),
+  })
+    .then((res) => res.json())
+    .then((result) => {
+      console.log(result);
+      const responseData = [];
+      result.rankList.forEach((item) => {
+        responseData.push({
+          userData: dataMap.get(item.id),
+          similarity: item.similarity * 100,
+        });
+      });
+
+      return res.status(200).json({
+        message: "Success",
+        rankedParticipants: responseData,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).send({ message: "Internal server error!" });
+    });
 };

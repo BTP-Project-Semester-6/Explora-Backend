@@ -5,6 +5,7 @@ const {
   getUserByUsername,
   loginUserByUsername,
   addPersonalityQuiz,
+  getAllUsers,
 } = require("../controllers/user.controller");
 const {
   userValidate,
@@ -25,5 +26,6 @@ router.post(
   isUserValidated,
   addPersonalityQuiz
 );
+router.post("/getAllUsers", getAllUsers);
 
 module.exports = router;

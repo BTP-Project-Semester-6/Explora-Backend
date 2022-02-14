@@ -30,6 +30,7 @@ exports.newPrePlanning = (req, res) => {
 exports.helpfulPrePlanning = (req, res) => {
   const userId = req.body.userId;
   const postId = req.body.postId;
+  console.log(userId + " " + postId);
   PrePlanning.updateOne(
     { _id: postId },
     {
@@ -48,13 +49,58 @@ exports.helpfulPrePlanning = (req, res) => {
       return res.status(400).json({ status: "failed" });
     });
 };
+exports.removeHelpfulPrePlanning = (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+  console.log(userId + " " + postId);
+  PrePlanning.updateOne(
+    { _id: postId },
+    {
+      $pull: {
+        helpful: {
+          userId: userId,
+        },
+      },
+    }
+  )
+    .then(async (data) => {
+      res.status(200).json({ status: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ status: "failed" });
+    });
+};
 exports.notHelpfulPrePlanning = (req, res) => {
   const userId = req.body.userId;
   const postId = req.body.postId;
+  console.log(userId + " " + postId);
   PrePlanning.updateOne(
     { _id: postId },
     {
       $addToSet: {
+        notHelpful: {
+          userId: userId,
+        },
+      },
+    }
+  )
+    .then(async (data) => {
+      res.status(200).json({ status: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ status: "failed" });
+    });
+};
+exports.removeNotHelpfulPrePlanning = (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+  console.log(userId + " " + postId);
+  PrePlanning.updateOne(
+    { _id: postId },
+    {
+      $pull: {
         notHelpful: {
           userId: userId,
         },

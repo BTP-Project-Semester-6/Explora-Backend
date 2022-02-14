@@ -2,12 +2,15 @@ const PrePlanning = require("../models/PrePlanning");
 
 exports.newPrePlanning = (req, res) => {
   const { location, subLocation, author, description } = req.body;
-
+  const helpful = [];
+  const notHelpful = [];
   const prePlanning = new PrePlanning({
     location,
     author,
     description,
     subLocation,
+    helpful,
+    notHelpful,
   });
 
   prePlanning.save((error, data) => {
@@ -24,6 +27,48 @@ exports.newPrePlanning = (req, res) => {
   });
 };
 
+exports.helpfulPrePlanning = (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+  PrePlanning.updateOne(
+    { _id: postId },
+    {
+      $addToSet: {
+        helpful: {
+          userId: userId,
+        },
+      },
+    }
+  )
+    .then(async (data) => {
+      res.status(200).json({ status: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ status: "failed" });
+    });
+};
+exports.notHelpfulPrePlanning = (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+  PrePlanning.updateOne(
+    { _id: postId },
+    {
+      $addToSet: {
+        notHelpful: {
+          userId: userId,
+        },
+      },
+    }
+  )
+    .then(async (data) => {
+      res.status(200).json({ status: "success" });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).json({ status: "failed" });
+    });
+};
 exports.getPrePlanningBySubLocation = (req, res) => {
   const subLocation = req.params.sublocation;
   PrePlanning.find({ subLocation: subLocation })

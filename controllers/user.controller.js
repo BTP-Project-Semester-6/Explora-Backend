@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const Post = require("../models/Post");
+const { populate } = require("../models/User");
 
 exports.addUser = (req, res) => {
   const newUser = new User({
@@ -144,4 +146,13 @@ exports.addPersonalityQuiz = (req, res) => {
       return res.status(200).send({ message: "Successfully added quiz!" });
     }
   );
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    console.log("User runing");
+    const users = await User.find().populate("posts.postId");
+
+    return res.status(200).json({ users });
+  } catch (error) {}
 };

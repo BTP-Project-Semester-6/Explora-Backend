@@ -134,3 +134,14 @@ exports.getAllPosts = async (req, res) => {
     return res.status(400).json({ status: "failed" });
   }
 };
+
+exports.getSinglePost=async (req,res)=>{
+  try {
+    const post=await Post.findById(req.params.id);
+    res.status(200).json({
+      post,
+    });
+  } catch (error) {
+    
+  }
+}

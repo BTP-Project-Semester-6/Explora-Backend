@@ -60,16 +60,21 @@ exports.getStatusTask = (req, res) => {
 
 exports.getTaskByID = (req, res) => {
   // console.log(req.params.id);
-  Task.findById(req.params.id)
+  Task.findById(req.body.taskId)
     .populate("userId", "-password")
     .populate("challengeID")
     .then((taskStatus) => {
       // console.log(taskStatus);
-      return res.status(200).json(taskStatus);
+      if (taskStatus.userId._id == req.body.userId) {
+        console.log(taskStatus);
+        return res.status(200).json({ data: taskStatus, message: "Success" });
+      } else {
+        return res.status(400).json({ message: "Invalid Access" });
+      }
     })
     .catch((err) => {
       console.log(err);
-      return res.status(400).json(err);
+      return res.status(400).json({ message: err });
     });
 };
 

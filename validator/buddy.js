@@ -11,21 +11,21 @@ exports.buddyCreateGroupValidate = [
   check("dateOfDeparture")
     .notEmpty()
     .withMessage("DateOfDeparture not provided"),
-  check("HostId").custom((value) => {
-    console.log("idval", value);
-    return User.findById(value)
-      .then((user, err) => {
-        console.log(user);
-        console.log("asd", err);
-        if (user.quizAnswers === undefined) {
-          return Promise.reject("User has not given the personality quiz!");
-        }
-      })
-      .catch((err) => {
-        console.log("1", err);
-        return Promise.reject(err);
-      });
-  }),
+  // check("HostId").custom((value) => {
+  //   console.log("idval", value);
+  //   return User.findById(value)
+  //     .then((user, err) => {
+  //       console.log(user);
+  //       console.log("asd", err);
+  //       if (user.quizAnswers === undefined) {
+  //         return Promise.reject("User has not given the personality quiz!");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("1", err);
+  //       return Promise.reject(err);
+  //     });
+  // }),
 ];
 
 exports.buddyDeleteGroupValidate = [

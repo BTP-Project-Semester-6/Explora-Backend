@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.post("/addTask", addTaskValidate, isTaskValidated, addTask);
 router.get("/getStatusTask/:id", getStatusTask);
-router.get("/getTaskByID/:id", getTaskByID);
+router.post("/getTaskByID", getTaskByID);
 router.post(
   "/completeSubLocationInTask",
   completeSubLocationInTaskValidate,

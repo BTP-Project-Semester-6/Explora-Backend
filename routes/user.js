@@ -6,6 +6,7 @@ const {
   loginUserByUsername,
   addPersonalityQuiz,
   suggestFriends,
+  getAllUsers,
 } = require("../controllers/user.controller");
 const {
   userValidate,
@@ -27,6 +28,7 @@ router.post(
   isUserValidated,
   addPersonalityQuiz
 );
+router.post("/getAllUsers", getAllUsers);
 
 router.post(
   "/suggestfriends",

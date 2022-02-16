@@ -3,6 +3,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { response } = require("express");
 const fetch = require("node-fetch");
+const Post = require("../models/Post");
+const { populate } = require("../models/User");
 
 exports.addUser = (req, res) => {
   const newUser = new User({
@@ -204,4 +206,12 @@ exports.suggestFriends = async (req, res) => {
       console.log(err);
       return res.status(500).send({ message: "Internal server error!" });
     });
+};
+exports.getAllUsers = async (req, res) => {
+  try {
+    console.log("User runing");
+    const users = await User.find().populate("posts.postId");
+
+    return res.status(200).json({ users });
+  } catch (error) {}
 };

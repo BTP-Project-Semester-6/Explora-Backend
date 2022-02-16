@@ -5,6 +5,7 @@ const {
   newComment,
   likePost,
   getAllPosts,
+  getSinglePost,
 } = require("../controllers/post");
 const { PostValidate, isPostValidated } = require("../validator/post");
 const router = require("./challenge");
@@ -17,5 +18,6 @@ router.post("/newcomment", newComment);
 
 router.post("/likepost", likePost);
 router.post("/getallposts", getAllPosts);
+router.get("/getsinglepost/:id", getSinglePost);
 
 module.exports = router;

@@ -60,21 +60,26 @@ exports.getStatusTask = (req, res) => {
 
 exports.getTaskByID = (req, res) => {
   // console.log(req.params.id);
-  Task.findById(req.params.id)
+  Task.findById(req.body.taskId)
     .populate("userId", "-password")
     .populate("challengeID")
     .then((taskStatus) => {
       // console.log(taskStatus);
-      return res.status(200).json(taskStatus);
+      if (taskStatus.userId._id == req.body.userId) {
+        console.log(taskStatus);
+        return res.status(200).json({ data: taskStatus, message: "Success" });
+      } else {
+        return res.status(400).json({ message: "Invalid Access" });
+      }
     })
     .catch((err) => {
       console.log(err);
-      return res.status(400).json(err);
+      return res.status(400).json({ message: err });
     });
 };
 
 exports.completeSubLocationInTask = async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   Task.findOneAndUpdate(
     {
       _id: req.body.taskId,
@@ -84,15 +89,12 @@ exports.completeSubLocationInTask = async (req, res) => {
     {
       "locations.$.completed": true,
     },
-    null
-    // (err, data) => {
-    // if (!data) {
-    //   return res
-    //     .status(400)
-    //     .send({ message: "Updating sublocation failed..." });
-    // }
-    // return res.status(200).send({ message: "Success" });
-    // }
+    null,
+    (err) => {
+      if (err) {
+        return res.status(400).send({ message: err });
+      }
+    }
   );
   try {
     const task = await Task.findOne({
@@ -135,6 +137,8 @@ exports.completeSubLocationInTask = async (req, res) => {
       } catch (err) {
         return res.status(400).send(err);
       }
+    } else {
+      return res.send({ message: "success" });
     }
   } catch (err) {
     return res.status(400).send(err);

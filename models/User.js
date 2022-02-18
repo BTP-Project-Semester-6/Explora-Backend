@@ -84,6 +84,15 @@ const userSchema = mongoose.Schema({
       },
     },
   ],
+  friendRequests: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
   quizAnswers: {
     type: Array,
     default: undefined,

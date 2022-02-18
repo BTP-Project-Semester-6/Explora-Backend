@@ -9,7 +9,7 @@ exports.addTaskValidate = [
 
 exports.completeSubLocationInTaskValidate = [
   check("userId").notEmpty().withMessage("Please give user id"),
-  check("taskId").notEmpty().withMessage("Please give challenge id"),
+  check("taskId").notEmpty().withMessage("Please give task id"),
   check("subLocation").notEmpty().withMessage("Please give sublocation"),
 ];
 

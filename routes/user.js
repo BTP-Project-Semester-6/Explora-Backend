@@ -5,6 +5,11 @@ const {
   getUserByUsername,
   loginUserByUsername,
   addPersonalityQuiz,
+  allUserExceptHost,
+  getMyFriends,
+  search,
+  friendRequest,
+  AcceptfriendRequest,
   suggestFriends,
   getAllUsers,
 } = require("../controllers/user.controller");
@@ -28,6 +33,12 @@ router.post(
   isUserValidated,
   addPersonalityQuiz
 );
+router.post("/allUserExceptHost", allUserExceptHost);
+router.post("/getMyFriends", getMyFriends);
+router.post("/searchFriends", search);
+router.post("/friendRequest", friendRequest);
+router.post("/friendRequestAccept", AcceptfriendRequest);
+
 router.post("/getAllUsers", getAllUsers);
 
 router.post(

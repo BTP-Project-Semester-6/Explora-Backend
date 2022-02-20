@@ -7,6 +7,8 @@ const userSchema = mongoose.Schema({
   },
   picUrl: {
     type: String,
+    default:
+      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=338&ext=jpg",
   },
   name: {
     type: String,
@@ -60,10 +62,37 @@ const userSchema = mongoose.Schema({
   },
   friends: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      friendId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
     },
   ],
+  friendRequestSent: [
+    {
+      friendId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
+  ],
+  friendRequestRecieved: [
+    {
+      friendId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
+  ],
+  friendRequests: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
   quizAnswers: {
     type: Array,
     default: undefined,

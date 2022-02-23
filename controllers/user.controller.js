@@ -263,6 +263,8 @@ exports.AcceptfriendRequest = async (req, res) => {
     console.log(error);
     return res.status(400).json({ status: "failed" });
   }
+};
+
 exports.suggestFriends = async (req, res) => {
   const userId = req.body.id;
   const userData = await User.findById(userId);

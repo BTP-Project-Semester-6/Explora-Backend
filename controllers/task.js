@@ -31,11 +31,14 @@ exports.addTask = (req, res) => {
             });
             newTask.save((error, data) => {
               if (error) {
+                console.log("ERROR");
                 console.log(error);
                 return res.status(400).json({ error: "Adding Task Failed" });
               }
               if (data) {
+                console.log(data);
                 return res.status(200).json({
+                  id: data._id,
                   message: "Success",
                 });
               }

@@ -50,6 +50,8 @@ exports.addTask = (req, res) => {
 
 exports.getStatusTask = (req, res) => {
   Task.find({ userId: req.params.id })
+    .populate("userId", "-password")
+    .populate("challengeID")
     .then((taskStatus) => {
       return res.status(200).json(taskStatus);
     })

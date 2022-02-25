@@ -5,6 +5,7 @@ const { response } = require("express");
 const fetch = require("node-fetch");
 const Post = require("../models/Post");
 const { populate } = require("../models/User");
+const Feedback = require("../models/feedback");
 
 exports.addUser = (req, res) => {
   const newUser = new User({
@@ -328,5 +329,25 @@ exports.getAllUsers = async (req, res) => {
     const users = await User.find().populate("posts.postId");
 
     return res.status(200).json({ users });
+  } catch (error) {}
+};
+
+exports.feedBack = async (req, res) => {
+  const { subject, description, rating } = req.body;
+  const newFeedback = new Feedback({
+    subject,
+    description,
+    rating,
+  });
+  await newFeedback.save();
+  return res.json({ message: "successs" });
+};
+
+exports.feedBackall = async (req, res) => {
+  try {
+    // console.log("User runing");
+    const feed = await Feedback.find().sort({ created_at: -1 });
+
+    return res.status(200).json({ message: feed });
   } catch (error) {}
 };

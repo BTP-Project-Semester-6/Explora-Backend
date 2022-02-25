@@ -12,6 +12,8 @@ const {
   AcceptfriendRequest,
   suggestFriends,
   getAllUsers,
+  feedBack,
+  feedBackall,
 } = require("../controllers/user.controller");
 const {
   userValidate,
@@ -47,5 +49,7 @@ router.post(
   isUserValidated,
   suggestFriends
 );
+router.post("/feedback", feedBack);
+router.post("/feedbackall", feedBackall);
 
 module.exports = router;

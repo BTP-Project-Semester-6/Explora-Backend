@@ -57,7 +57,9 @@ exports.validateChallenge = (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(400).json({ error: "Something went wrong" });
+      return res
+        .status(400)
+        .json({ message: "error", error: "Something went wrong" });
     });
 };
 
@@ -70,6 +72,8 @@ exports.removeChallenge = (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(400).json({ error: "Something went wrong" });
+      return res
+        .status(400)
+        .json({ message: "error", error: "Something went wrong" });
     });
 };

@@ -9,6 +9,7 @@ const {
   getBuddyByCity,
   addBuddyRequest,
   getBuddySimilarity,
+  getUserBuddyGroups,
 } = require("../controllers/buddy");
 
 const {
@@ -52,5 +53,7 @@ router.post(
 );
 
 router.get("/getbuddysimilarity/:id", getBuddySimilarity);
+
+router.get("/userbuddies/:id", getUserBuddyGroups);
 
 module.exports = router;

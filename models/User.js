@@ -5,6 +5,10 @@ const userSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   picUrl: {
     type: String,
     default:

@@ -9,11 +9,18 @@ const {
   getGuideById,
   getGuideByLocation,
 } = require("../controllers/guide.controller");
+const { isAuthenticated } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post("/register", guideValidate, isGuideValidated, addGuide);
-router.get("/id/:id", getGuideById);
-router.get("/location/:location", getGuideByLocation);
+router.post(
+  "/register",
+  isAuthenticated,
+  guideValidate,
+  isGuideValidated,
+  addGuide
+);
+router.get("/id/:id", isAuthenticated, getGuideById);
+router.get("/location/:location", isAuthenticated, getGuideByLocation);
 
 module.exports = router;

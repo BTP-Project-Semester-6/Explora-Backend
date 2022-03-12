@@ -34,6 +34,7 @@ exports.addUser = (req, res) => {
         _id: data._id,
         name: data.name,
         username: data.username,
+        isAdmin: data.admin,
       },
       process.env.JWT_secret_token,
       {
@@ -118,6 +119,7 @@ exports.loginUserByUsername = (req, res) => {
                 _id: data._id,
                 name: data.name,
                 username: data.username,
+                isAdmin: data.admin,
               },
               process.env.JWT_secret_token,
               {

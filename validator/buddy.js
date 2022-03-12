@@ -51,6 +51,7 @@ exports.getBuddyByCityValidate = [
 
 exports.buddyRequestValidate = [
   check("groupId").notEmpty().withMessage("Error: Group Id"),
+  check("hostId").notEmpty().withMessage("Error: Host Id"),
   check("id").custom((value, { req }) => {
     return User.findById(value)
       .then((user, err) => {

@@ -1,6 +1,7 @@
 const Buddy = require("../models/Buddy");
 const User = require("../models/User");
 const fetch = require("node-fetch");
+const mongoose = require("mongoose");
 
 exports.createGroup = (req, res) => {
   const {
@@ -77,19 +78,26 @@ exports.deleteGroup = (req, res) => {
 };
 
 exports.addBuddy = (req, res) => {
-  const { id, name, groupId } = req.body; // id and name of the person to add, groupId of group to which the new memeber will join
+  const { id, username, groupId } = req.body; // id and name of the person to add, groupId of group to which the new memeber will join
   Buddy.updateOne(
     { _id: groupId },
     {
       $addToSet: {
         inGroup: {
-          username: name,
+          username: username,
+          id: id,
+        },
+      },
+      $pull: {
+        requests: {
+          username: username,
           id: id,
         },
       },
     }
   )
     .then((data) => {
+      console.log(data);
       return res.status(200).json({
         message: "Success",
       });
@@ -208,4 +216,28 @@ exports.getBuddySimilarity = async (req, res) => {
       console.log(err);
       return res.status(500).send({ message: "Internal server error!" });
     });
+};
+
+exports.getUserBuddyGroups = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const allBuddies = await Buddy.find({}).populate("Host", "-password");
+    console.log(allBuddies);
+    const resBuddies = [];
+    allBuddies.forEach((buddy) => {
+      buddy.inGroup.forEach((member) => {
+        if (member.id.toString() == userId) resBuddies.push(buddy);
+      });
+    });
+    console.log(resBuddies);
+    return res.status(200).send({
+      message: "Ok",
+      buddies: resBuddies,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({
+      message: "Internal Server Error!",
+    });
+  }
 };

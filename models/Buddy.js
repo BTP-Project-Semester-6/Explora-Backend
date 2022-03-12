@@ -16,6 +16,7 @@ const buddySchema = mongoose.Schema({
   requests: [
     {
       username: { type: String, trim: true },
+      similarity: { type: "String" },
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
   ],

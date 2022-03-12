@@ -47,6 +47,7 @@ router.post(
   isBuddyValidated,
   getBuddyByCity
 );
+
 router.post(
   "/addbuddyrequest",
   isAuthenticated,

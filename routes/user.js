@@ -15,6 +15,7 @@ const {
   feedBack,
   feedBackall,
 } = require("../controllers/user.controller");
+const { isAuthenticated } = require("../middleware/auth");
 const {
   userValidate,
   isUserValidated,
@@ -26,30 +27,32 @@ const {
 const router = express.Router();
 
 router.post("/register", userValidate, isUserValidated, addUser);
-router.get("/id/:id", getUserById);
-router.get("/username/:username", getUserByUsername);
+router.get("/id/:id", isAuthenticated, getUserById);
+router.get("/username/:username", isAuthenticated, getUserByUsername);
 router.post("/login", loginValidate, isUserValidated, loginUserByUsername);
 router.post(
   "/addpersonalityquiz",
+  isAuthenticated,
   quizValidate,
   isUserValidated,
   addPersonalityQuiz
 );
-router.post("/allUserExceptHost", allUserExceptHost);
-router.post("/getMyFriends", getMyFriends);
-router.post("/searchFriends", search);
-router.post("/friendRequest", friendRequest);
-router.post("/friendRequestAccept", AcceptfriendRequest);
+router.post("/allUserExceptHost", isAuthenticated, allUserExceptHost);
+router.post("/getMyFriends", isAuthenticated, getMyFriends);
+router.post("/searchFriends", isAuthenticated, search);
+router.post("/friendRequest", isAuthenticated, friendRequest);
+router.post("/friendRequestAccept", isAuthenticated, AcceptfriendRequest);
 
-router.post("/getAllUsers", getAllUsers);
+router.post("/getAllUsers", isAuthenticated, getAllUsers);
 
 router.post(
   "/suggestfriends",
+  isAuthenticated,
   suggestFriendValidator,
   isUserValidated,
   suggestFriends
 );
-router.post("/feedback", feedBack);
-router.post("/feedbackall", feedBackall);
+router.post("/feedback", isAuthenticated, feedBack);
+router.post("/feedbackall", isAuthenticated, feedBackall);
 
 module.exports = router;

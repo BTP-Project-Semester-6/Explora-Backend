@@ -7,6 +7,7 @@ const {
   validateChallenge,
   removeChallenge,
 } = require("../controllers/challenge");
+const { isAuthenticated } = require("../middleware/auth");
 const {
   isChallengeValidated,
   ChallengeValidate,
@@ -17,6 +18,7 @@ const router = express.Router();
 
 router.post(
   "/newChallenge",
+  isAuthenticated,
   ChallengeValidate,
   isChallengeValidated,
   newChallenge
@@ -24,15 +26,21 @@ router.post(
 
 router.post(
   "/getChallengeByCity",
+  isAuthenticated,
   CityValidate,
   isChallengeValidated,
   getChallengeByCity
 );
 
-router.post("/getAdminAllNotValidCity", getAdminAllNotValidCity);
+router.post(
+  "/getAdminAllNotValidCity",
+  isAuthenticated,
+  getAdminAllNotValidCity
+);
 
 router.post(
   "/validateChallenge",
+  isAuthenticated,
   ChallengeIdValidate,
   isChallengeValidated,
   validateChallenge
@@ -40,6 +48,7 @@ router.post(
 
 router.post(
   "/removeChallenge",
+  isAuthenticated,
   ChallengeIdValidate,
   isChallengeValidated,
   removeChallenge

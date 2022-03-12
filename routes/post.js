@@ -7,17 +7,24 @@ const {
   getAllPosts,
   getSinglePost,
 } = require("../controllers/post");
+const { isAuthenticated } = require("../middleware/auth");
 const { PostValidate, isPostValidated } = require("../validator/post");
 const router = require("./challenge");
 
-router.post("/newpost", PostValidate, isPostValidated, newPost);
+router.post(
+  "/newpost",
+  isAuthenticated,
+  PostValidate,
+  isPostValidated,
+  newPost
+);
 
-router.post("/getpostbyid", getPostbyID);
+router.post("/getpostbyid", isAuthenticated, getPostbyID);
 
-router.post("/newcomment", newComment);
+router.post("/newcomment", isAuthenticated, newComment);
 
-router.post("/likepost", likePost);
-router.post("/getallposts", getAllPosts);
-router.get("/getsinglepost/:id", getSinglePost);
+router.post("/likepost", isAuthenticated, likePost);
+router.post("/getallposts", isAuthenticated, getAllPosts);
+router.get("/getsinglepost/:id", isAuthenticated, getSinglePost);
 
 module.exports = router;

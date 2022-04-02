@@ -353,3 +353,70 @@ exports.feedBackall = async (req, res) => {
     return res.status(200).json({ message: feed });
   } catch (error) {}
 };
+
+exports.suggestPlaces = async (req, res) => {
+  try {
+    const userId = req.body.id;
+    const userData = await User.findById(userId);
+    const quizAnswers = userData.quizAnswers;
+
+    const quizUsers = await User.find({
+      quizAnswers: { $exists: true },
+      _id: { $ne: userData._id },
+    })
+      .select("-password")
+      .populate("posts.postId");
+
+    console.log("###############3");
+
+    console.log(quizUsers);
+
+    const dataMap = new Map();
+
+    const requestData = quizUsers.map((user) => {
+      dataMap.set(user._id.toString(), user);
+      const postArray = [];
+      return {
+        id: user._id.toString(),
+        response: user.quizAnswers,
+      };
+    });
+
+    console.log(requestData);
+
+    console.log(dataMap);
+
+    fetch("https://explora-ml-backend.herokuapp.com/rank_buddies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_responses: userData.quizAnswers,
+        buddies: requestData,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        const responseData = [];
+        result.rankList.forEach((item) => {
+          responseData.push({
+            userData: dataMap.get(item.id),
+            similarity: item.similarity * 100,
+          });
+        });
+
+        return res.status(200).json({
+          message: "Success",
+          rankedParticipants: responseData,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).send({ message: "Internal server error!" });
+      });
+  } catch (err) {
+    return res.status(500).send({ message: "Internal Server Error!" });
+  }
+};

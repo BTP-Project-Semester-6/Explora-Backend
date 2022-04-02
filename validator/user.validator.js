@@ -69,6 +69,21 @@ exports.suggestFriendValidator = [
   }),
 ];
 
+exports.suggestPlacesValidator = [
+  check("id").custom((value) => {
+    if (value == undefined) return Promise.reject("Please provide user id!");
+    return User.findById(value).then((data, err) => {
+      console.log(data);
+      console.log(err);
+      if (err) return Promise.reject(err);
+      if (data.quizAnswers === undefined)
+        return Promise.reject(
+          "Please take the personality quiz to get access to this feature!"
+        );
+    });
+  }),
+];
+
 exports.isUserValidated = (req, res, next) => {
   const errors = validationResult(req);
 

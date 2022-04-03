@@ -14,6 +14,7 @@ const {
   getAllUsers,
   feedBack,
   feedBackall,
+  suggestPlaces,
 } = require("../controllers/user.controller");
 const { isAuthenticated } = require("../middleware/auth");
 const {
@@ -22,6 +23,7 @@ const {
   loginValidate,
   quizValidate,
   suggestFriendValidator,
+  suggestPlacesValidator,
 } = require("../validator/user.validator");
 
 const router = express.Router();
@@ -54,5 +56,12 @@ router.post(
 );
 router.post("/feedback", isAuthenticated, feedBack);
 router.post("/feedbackall", isAuthenticated, feedBackall);
+router.post(
+  "/suggestplaces",
+  isAuthenticated,
+  suggestPlacesValidator,
+  isUserValidated,
+  suggestPlaces
+);
 
 module.exports = router;

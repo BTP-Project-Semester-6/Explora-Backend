@@ -6,6 +6,7 @@ const {
   notHelpfulPrePlanning,
   removeHelpfulPrePlanning,
   removeNotHelpfulPrePlanning,
+  getAllPrePlanning,
 } = require("../controllers/prePlanning");
 const { isAuthenticated } = require("../middleware/auth");
 const {
@@ -20,6 +21,9 @@ router.get(
   isAuthenticated,
   getPrePlanningBySubLocation
 );
+
+router.get("/getAllPrePlanning", isAuthenticated, getAllPrePlanning);
+
 router.post(
   "/newPrePlanning",
   isAuthenticated,

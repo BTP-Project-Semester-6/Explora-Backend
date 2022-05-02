@@ -6,6 +6,7 @@ const {
   getAdminAllNotValidCity,
   validateChallenge,
   removeChallenge,
+  getAllChallenges,
 } = require("../controllers/challenge");
 const { isAuthenticated } = require("../middleware/auth");
 const {
@@ -31,6 +32,8 @@ router.post(
   isChallengeValidated,
   getChallengeByCity
 );
+
+router.post("/getAllChallanges", isAuthenticated, getAllChallenges);
 
 router.post(
   "/getAdminAllNotValidCity",

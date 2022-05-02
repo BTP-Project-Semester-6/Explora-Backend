@@ -53,6 +53,19 @@ exports.getBuddyByCity = (req, res) => {
     });
 };
 
+exports.getAllBuddy = (req, res) => {
+  console.log(req.body);
+  Buddy.find({})
+    .populate("Host", "-password")
+    .then((_buddy) => {
+      console.log(_buddy);
+      return res.status(200).json(_buddy);
+    })
+    .catch((err) => {
+      return res.status(440).json({ error: "Something went wrong" });
+    });
+};
+
 exports.deleteGroup = (req, res) => {
   const { groupId, myId } = req.body;
   Buddy.findOne({ _id: groupId })

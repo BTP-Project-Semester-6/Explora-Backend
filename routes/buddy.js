@@ -10,6 +10,7 @@ const {
   addBuddyRequest,
   getBuddySimilarity,
   getUserBuddyGroups,
+  getAllBuddy,
 } = require("../controllers/buddy");
 
 const {
@@ -47,6 +48,8 @@ router.post(
   isBuddyValidated,
   getBuddyByCity
 );
+
+router.post("/getAllBuddy", isAuthenticated, getAllBuddy);
 
 router.post(
   "/addbuddyrequest",

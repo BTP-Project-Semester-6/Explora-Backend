@@ -8,6 +8,7 @@ const {
   addGuide,
   getGuideById,
   getGuideByLocation,
+  getAllGuide,
 } = require("../controllers/guide.controller");
 const { isAuthenticated } = require("../middleware/auth");
 
@@ -22,5 +23,7 @@ router.post(
 );
 router.get("/id/:id", isAuthenticated, getGuideById);
 router.get("/location/:location", isAuthenticated, getGuideByLocation);
+
+router.get("/getAllGuide", isAuthenticated, getAllGuide);
 
 module.exports = router;

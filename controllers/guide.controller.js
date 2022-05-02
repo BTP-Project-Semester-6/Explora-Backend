@@ -69,3 +69,21 @@ exports.getGuideByLocation = (req, res) => {
       return res.status(400).send({ error: "Could not find the given guide" });
     });
 };
+
+exports.getAllGuide = (req, res) => {
+  Guide.find({})
+    .populate("userId", "-password")
+    .then((data, err) => {
+      if (err) {
+        return res
+          .status(400)
+          .send({ error: "Could not find the given guide" });
+      }
+      console.log({ guide: data });
+      return res.status(200).send({ data: data });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(400).send({ error: "Could not find the given guide" });
+    });
+};

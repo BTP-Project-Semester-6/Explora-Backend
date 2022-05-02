@@ -38,6 +38,15 @@ exports.getChallengeByCity = (req, res) => {
     });
 };
 
+exports.getAllChallenges = (req, res) => {
+  Challenge.find({ isvalid: true })
+    .then((_challenge) => {
+      return res.status(200).json(_challenge);
+    })
+    .catch((err) => {
+      return res.status(440).json({ error: "Something went wrong" });
+    });
+};
 exports.getAdminAllNotValidCity = (req, res) => {
   Challenge.find({ isvalid: false })
     .then((_challenge) => {

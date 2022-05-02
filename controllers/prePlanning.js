@@ -126,3 +126,13 @@ exports.getPrePlanningBySubLocation = (req, res) => {
       return res.status(440).json({ error: "Something went wrong" });
     });
 };
+exports.getAllPrePlanning = (req, res) => {
+  PrePlanning.find({})
+    .populate("author", "-password")
+    .then((_subLocation) => {
+      return res.status(200).json(_subLocation);
+    })
+    .catch((err) => {
+      return res.status(440).json({ error: "Something went wrong" });
+    });
+};
